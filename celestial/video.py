@@ -3,6 +3,7 @@ import numpy as np
 import pyautogui
 import time
 import datetime
+#from utils import sleep
 
 """
 IMPORTANT NOTE:
@@ -18,12 +19,20 @@ Where filename.avi is the corrupted file. Corrupted files may still play ok but 
 into a video editor, they will likely be rejected.
 """
 
-def setVideoRecording(frameRate = 20, filename = "output.avi"):
-    vr = VideoRecorder(VideoRecorder.SCREEN_SIZE, "XVID", frameRate)
+def setVideoRecording(framerate = 20, filename = "output.avi"):
+    vr = VideoRecorder(VideoRecorder.SCREEN_SIZE, "XVID", framerate)
     dt = datetime.datetime.now()
     date_time = dt.strftime("%Y%m%d-%H%M%S")
-    print "video-recordings/"+date_time+"-"+str(frameRate)+"fr/s"+"-"+filename
-    vr.setVideoOutput("video-recordings/"+date_time+"-"+str(frameRate)+"frps"+"-"+filename)
+    print "video-recordings/"+date_time+"-"+str(framerate)+"fr/s"+"-"+filename
+    vr.setVideoOutput("video-recordings/"+date_time+"-"+str(framerate)+"frps"+"-"+filename)
+    return vr
+
+def setVideoRecordingMP4(framerate = 20, filename = "output.mp4"):
+    vr = VideoRecorder(VideoRecorder.SCREEN_SIZE, 'XVID', framerate)
+    dt = datetime.datetime.now()
+    date_time = dt.strftime("%Y%m%d-%H%M%S")
+    print "video-recordings/"+date_time+"-"+str(framerate)+"frps"+"-"+filename
+    vr.setVideoOutput("video-recordings/"+date_time+"-"+str(framerate)+"frps"+"-"+filename)
     return vr
 
 def recOneFrame(videoRecorder):
@@ -68,8 +77,10 @@ class VideoRecorder:
             print "@"
             sleep(1e-3)
 
-        cv2.destroyAllWindows()
+#        cv2.destroyAllWindows()
         self.out.release()
+        cv2.destroyAllWindows()
+
         print "Closing video file ", self.name
 
     def waitKey(self, t):
